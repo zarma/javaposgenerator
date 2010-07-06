@@ -38,7 +38,7 @@ public class DocumentARMA  {
 			nbunit++;
 			sqftext[nbline]= "_code" + myunit.getUnitName() + " = {" ;
 			nbline++;
-			sqftext[nbline]= "_g" + myunit.getUnitName() + " = createGroup centerE;";
+			sqftext[nbline]= "_g" + myunit.getUnitName() + " = createGroup " + myunit.getSide() + " ;";
 			nbline++;
 			sqftext[nbline]= myunit.getUnitName() + " = _g" + myunit.getUnitName() + " createUnit [\""+myunit.getType()+"\", [1,1,0.2], [], 0, 'CAN_COLLIDE'];";
 			nbline++;
@@ -46,12 +46,18 @@ public class DocumentARMA  {
 			nbline++;
 			sqftext[nbline]= "_g" + myunit.getUnitName() + " setFormDir " + myunit.getDir()+";";
 			nbline++;
-			sqftext[nbline]= "removeAllWeapons " + myunit.getUnitName() + ";";
-			nbline++;
-			sqftext[nbline]= "{"+ myunit.getUnitName() +" addWeapon _x;} foreach " + myunit.getWeapons() + ";";
-			nbline++;
-			sqftext[nbline]= "{"+ myunit.getUnitName() +" addMagazine _x;} foreach " + myunit.getMagazines() + ";";
-			nbline++;
+			
+			if (myunit.getMagazines().length()>2) {
+				sqftext[nbline]= "removeAllWeapons " + myunit.getUnitName() + ";";
+				nbline++;
+				sqftext[nbline]= "{"+ myunit.getUnitName() +" addWeapon _x;} foreach " + myunit.getWeapons() + ";";
+				nbline++;
+			}
+			if (myunit.getMagazines().length()>2) {
+				sqftext[nbline]= "{"+ myunit.getUnitName() +" addMagazine _x;} foreach " + myunit.getMagazines() + ";";
+				nbline++;
+			}
+			
 			sqftext[nbline]= "};" ;
 			nbline++;
 		}
@@ -86,6 +92,9 @@ public class DocumentARMA  {
 				
 				myunit = new unit();
 				myunit.setType(node.getTextContent());				
+			}
+			if (node.getNodeName()=="side") {
+				myunit.setSide(node.getTextContent());				
 			}
 			if (node.getNodeName()=="number") {
 				myunit.setNumber(node.getTextContent());				

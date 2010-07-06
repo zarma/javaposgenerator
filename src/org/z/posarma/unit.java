@@ -2,6 +2,7 @@ package org.z.posarma;
 
 public class unit {
 	private String type;
+	private String side;
 	private String position;
 	private String dir;
 	private String number;
@@ -21,6 +22,15 @@ public class unit {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public void setSide(String side) {
+		if (side=="CIV") {
+			side="civilian";
+		}
+		this.side = side;
+	}
+	public String getSide() {
+		return side;
 	}
 	public String getPosition() {
 		return position;
